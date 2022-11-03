@@ -29,6 +29,45 @@
 .pc-header li:hover {
   font-size: 20px;
 }
+
+.mobile-header {
+  padding-left: 2px;
+  padding-right: 2px;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-header .menu-button {
+  font-size: 20px;
+}
+
+.nav-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  background-color: red;
+  width: 90vw;
+  height: 100vh;
+  transition: 0.4s;
+}
+
+.nav-bar.hidden {
+  top: 0;
+  left: -100vw;
+}
+
+.nav-bar .close-button-bar {
+  font-size: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+}
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
 
