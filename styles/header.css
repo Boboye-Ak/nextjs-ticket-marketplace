@@ -1,0 +1,44 @@
+.pc-header {
+  height: 10vh;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: solid;
+  border-width: 1px;
+}
+
+.pc-header ul {
+  font-size: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.pc-header li {
+  list-style: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 200ms;
+}
+.pc-header li:hover {
+  font-size: 20px;
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+
+  .pc-header {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .mobile-header {
+    display: none;
+  }
+}

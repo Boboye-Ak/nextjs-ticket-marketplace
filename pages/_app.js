@@ -1,7 +1,22 @@
-import '../styles/globals.css'
+import Head from "next/head";
+import { MoralisProvider } from "react-moralis";
+import "../styles/globals.css";
+import "../styles/header.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Head>
+        <title>Tick3t Booth</title>
+        <meta name="description" content="Tick3t Booth" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <MoralisProvider initializeOnMount={false}>
+        <Component {...pageProps} />
+      </MoralisProvider>
+    </>
+  );
 }
 
-export default MyApp
+export default MyApp;
