@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react"
+import Link from "next/link"
 
 const NavBar = ({ isHidden, toggleNavBar }) => {
     return (
@@ -14,7 +15,9 @@ const NavBar = ({ isHidden, toggleNavBar }) => {
             </div>
             <ul>
                 <li>Create New Event</li>
-                <li>My Events</li>
+                <li>
+                    <Link href="/myevents">My Events</Link>
+                </li>
                 <li>Find Event</li>
             </ul>
         </div>

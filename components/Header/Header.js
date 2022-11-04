@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react"
+import Link from "next/link"
 import { useState } from "react"
 import { ConnectButton } from "web3uikit"
 import NavBar from "./NavBar"
@@ -16,7 +17,9 @@ const Header = () => {
                 <ul>
                     <li>Create New Event</li>
                     <li>Find Event</li>
-                    <li>My Events</li>
+                    <li>
+                        <Link href="/myevents">My Events</Link>
+                    </li>
                     <li>
                         <ConnectButton moralisAuth={false} />
                     </li>
