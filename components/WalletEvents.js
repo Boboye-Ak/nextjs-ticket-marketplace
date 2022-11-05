@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useEffect, useState } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { chains, partyFactoryAddresses, partyFactoryAbi, partyAbi } from "../constants"
@@ -58,7 +59,14 @@ const WalletEvents = ({ wallet }) => {
             getpartyDataOptions.functionName = "getCost"
             let partyCost = (await getCost({ params: getpartyDataOptions }))?.toString()
             getpartyDataOptions.functionName = "getPoster"
-            let partyPoster = (await getPoster({ params: getpartyDataOptions }))?.toString()
+            let partyDataUri = (await getPoster({ params: getpartyDataOptions }))?.toString()
+            let partyImage, partyDescription
+            if (partyDataUri) {
+                partyDataUri = partyDataUri.replace("ipfs://", "https://ipfs.io/ipfs/")
+                let res = await axios.get(partyDataUri)
+                partyImage = res.data.image.replace("ipfs://", "https://ipfs.io/ipfs/")
+                partyDescription = res.data.description
+            }
             getpartyDataOptions.functionName = "getTotalSold"
             let totalSold = (await getTotalSold({ params: getpartyDataOptions }))?.toString()
             getpartyDataOptions.functionName = "getMaxAttendees"
@@ -67,7 +75,8 @@ const WalletEvents = ({ wallet }) => {
                 partyAddress,
                 partyName,
                 partyCost,
-                partyPoster,
+                partyImage,
+                partyDescription,
                 totalSold,
                 maxAttendees,
             }
