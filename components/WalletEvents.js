@@ -2,6 +2,8 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { chains, partyFactoryAddresses, partyFactoryAbi, partyAbi } from "../constants"
+import NoPartiesCard from "./Cards/NoPartiesCard"
+import PartyCard from "./Cards/PartyCard"
 const WalletEvents = ({ wallet }) => {
     const { chainId: chainIdHex, isWeb3Enabled, account } = useMoralis()
     const chainId = parseInt(chainIdHex)
@@ -76,6 +78,7 @@ const WalletEvents = ({ wallet }) => {
                 partyName,
                 partyCost,
                 partyImage,
+                partyDataUri,
                 partyDescription,
                 totalSold,
                 maxAttendees,
@@ -97,17 +100,21 @@ const WalletEvents = ({ wallet }) => {
         }
     }, [eventAddresses])
     return (
-        <div>
-            {wallet}'s Events:
-            {events.map((event, index) => {
-                return (
-                    <div key={index}>
-                        Event number {index}, Event Name:{event.partyName}, Event Address:
-                        {event.partyAddress}, Event Cost:{event.partyCost}, Party Poster:
-                        {event.partyPoster}, tickets sold: {event.totalSold}/{event.maxAttendees}
-                    </div>
-                )
-            })}
+        <div className="parties-container">
+            <div className="header">{wallet}'s Events</div>
+            {events.length ? (
+                events.map((event, index) => {
+                    return (
+                        <>
+                            <PartyCard party={event} />
+                        </>
+                    )
+                })
+            ) : (
+                <>
+                    <NoPartiesCard />
+                </>
+            )}
         </div>
     )
 }

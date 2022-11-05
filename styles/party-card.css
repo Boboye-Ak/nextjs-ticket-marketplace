@@ -1,0 +1,76 @@
+.parties-container {
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.parties-container .header {
+    font-size: 20px;
+}
+
+.party-card {
+    width: 80%;
+    height: 120px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border: solid;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.party-card .img-wrap {
+    width: 500px;
+    height: 120px;
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+
+.img-wrap img {
+    width: 100%;
+    height: 100%;
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.party-card .party-name {
+    font-size: 30px;
+}
+
+.full-screen-party-card-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 6;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-screen-party-card {
+    width: 50%;
+    height: 50vh;
+    border: solid;
+}
+.full-screen-party-card .close-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.full-screen-party-card .close-button {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+}
