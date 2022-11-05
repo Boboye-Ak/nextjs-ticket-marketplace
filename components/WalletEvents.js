@@ -1,10 +1,13 @@
+import { Icon } from "@iconify/react"
 import axios from "axios"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { chains, partyFactoryAddresses, partyFactoryAbi, partyAbi } from "../constants"
 import NoPartiesCard from "./Cards/NoPartiesCard"
 import PartyCard from "./Cards/PartyCard"
 const WalletEvents = ({ wallet }) => {
+    const router = useRouter()
     const { chainId: chainIdHex, isWeb3Enabled, account } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const partyFactoryAddress =
@@ -19,6 +22,7 @@ const WalletEvents = ({ wallet }) => {
     //State variables
     const [eventAddresses, setEventAddresses] = useState([])
     const [events, setEvents] = useState([])
+    const [isOwner, setIsOwner] = useState(false)
 
     //Web3 Functions
     const {
@@ -42,6 +46,9 @@ const WalletEvents = ({ wallet }) => {
         const partiesFromCall = await getParties()
         if (partiesFromCall?.length > 0) {
             setEventAddresses(partiesFromCall)
+        }
+        if (account?.toLowerCase() == wallet?.toLowerCase()) {
+            setIsOwner(true)
         }
     }
 
@@ -93,7 +100,7 @@ const WalletEvents = ({ wallet }) => {
         if (isWeb3Enabled) {
             updateUI()
         }
-    }, [isWeb3Enabled, wallet, chainId])
+    }, [isWeb3Enabled, wallet, chainId, account])
     useEffect(() => {
         if (eventAddresses?.length > 0) {
             createEventsArray()
@@ -101,7 +108,7 @@ const WalletEvents = ({ wallet }) => {
     }, [eventAddresses])
     return (
         <div className="parties-container">
-            <div className="header">{wallet}'s Events</div>
+            <div className="header">{isOwner ? <>Your Events</> : <>{wallet}'s Events</>}</div>
             {events.length ? (
                 events.map((event, index) => {
                     return (
@@ -114,6 +121,16 @@ const WalletEvents = ({ wallet }) => {
                 <>
                     <NoPartiesCard />
                 </>
+            )}
+            {isOwner && (
+                <div
+                    className="new-event-button"
+                    onClick={() => {
+                        router.push("/createevent")
+                    }}
+                >
+                    <Icon icon="mdi:plus" />
+                </div>
             )}
         </div>
     )

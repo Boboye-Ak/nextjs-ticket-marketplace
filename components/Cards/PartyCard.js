@@ -9,10 +9,19 @@ const PartyCard = ({ party }) => {
     }
     return (
         <>
-            <div className="party-card" onClick={toggleFullScreenCard}>
+            <div
+                className="party-card"
+                style={{
+                    backgroundImage: `url("${party.partyImage}")`,
+                }}
+                onClick={toggleFullScreenCard}
+            >
                 <div className="party-name">{party.partyName}</div>
-                <div className="img-wrap">
+                {/*<div className="img-wrap">
                     <img src={party.partyImage} />
+            </div>*/}
+                <div className="ticket-sales">
+                    {party.totalSold}/{party.maxAttendees} Sold
                 </div>
             </div>
 

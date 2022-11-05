@@ -14,11 +14,13 @@ const NavBar = ({ isHidden, toggleNavBar }) => {
                 </div>
             </div>
             <ul>
-                <li>Create New Event</li>
+                <li>
+                    <Link href="/createevent">Create New Event</Link>
+                </li>
                 <li>
                     <Link href="/myevents">My Events</Link>
                 </li>
-                <li>Find Event</li>
+                <li><Link href="/">Find Event</Link></li>
             </ul>
         </div>
     )

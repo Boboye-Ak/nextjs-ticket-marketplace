@@ -1,0 +1,18 @@
+.new-event-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+    border: solid;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #0a66c2;
+}
+
+.new-event-button:hover {
+    background-color: #16437e;
+}

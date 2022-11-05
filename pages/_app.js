@@ -4,7 +4,7 @@ import "../styles/globals.css"
 import "../styles/header.css"
 import "../styles/find-event.css"
 import "../styles/party-card.css"
-
+import "../styles/buttons.css"
 function MyApp({ Component, pageProps }) {
     return (
         <>

@@ -15,8 +15,10 @@ const Header = () => {
             <div className="pc-header">
                 <div>Tick3t Booth</div>
                 <ul>
-                    <li>Create New Event</li>
-                    <li>Find Event</li>
+                    <li>
+                        <Link href="/createevent">Create New Event</Link>
+                    </li>
+                    <li><Link href="/">Find Event</Link></li>
                     <li>
                         <Link href="/myevents">My Events</Link>
                     </li>

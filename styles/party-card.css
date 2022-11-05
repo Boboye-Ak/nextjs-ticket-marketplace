@@ -1,6 +1,7 @@
 .parties-container {
     width: 100%;
     margin-top: 30px;
+    margin-bottom: 30px;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
@@ -17,19 +18,32 @@
     margin-bottom: 0px;
     border: solid;
     border-radius: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    background-color: white;
+    background-repeat: no-repeat, repeat;
+    background-size: 100% 100%;
+    color: black;
+    transition: 400ms;
+}
+.party-card:hover {
+    width: 85%;
+    height: 150px;
 }
 .party-card .img-wrap {
     width: 500px;
     height: 120px;
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
+    background-color: white;
+    background-repeat: no-repeat, repeat;
+    background-size: 100% 100%;
 }
-
 
 .img-wrap img {
     width: 100%;
@@ -39,6 +53,10 @@
 }
 .party-card .party-name {
     font-size: 30px;
+}
+
+.party-card .ticket-sales {
+    font-size: 20px;
 }
 
 .full-screen-party-card-container {
@@ -59,6 +77,11 @@
     width: 50%;
     height: 50vh;
     border: solid;
+    background-color: white;
+    background-repeat: no-repeat, repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    color: black;
 }
 .full-screen-party-card .close-bar {
     width: 100%;
@@ -69,8 +92,39 @@
 .full-screen-party-card .close-button {
     cursor: pointer;
     font-size: 20px;
+    color: red;
+    transition: 200ms;
+}
+.full-screen-party-card .close-button:hover {
+    font-size: 25px;
 }
 
+.full-screen-party-card .party-info {
+    height: 70%;
+}
+.full-screen-party-card .party-name {
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+}
+.full-screen-party-card .party-description {
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 17px;
+}
+.full-screen-party-card .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.full-screen-party-card button {
+    width: 300px;
+    height: 50px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
 }
