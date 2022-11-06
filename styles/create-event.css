@@ -7,8 +7,8 @@
     border: solid;
     border-width: 1px;
     border-radius: 10px;
-    width: 70vw;
-
+    width: 65vw;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,9 +17,17 @@
 .create-event .input-wrap {
     border: solid;
     border-width: thin;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
-.input-wrap input,
-.input-wrap textarea {
+.create-event button {
+    cursor: pointer;
+}
+.create-event button:disabled {
+    cursor: not-allowed;
+}
+.input-wrap input {
     border: none;
     background-color: transparent;
     resize: none;
@@ -31,12 +39,11 @@
 .input-wrap {
     width: 500px;
     padding: 2px;
-    border-radius: 12px;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .input-wrap input {
     height: 100%;
     height: 50px;
-}
-.input-wrap textarea {
-    height: 300px;
 }
