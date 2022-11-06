@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import Event from "../../components/Event"
 import Header from "../../components/Header/Header"
 import styles from "../../styles/Home.module.css"
 
@@ -8,6 +9,7 @@ const eventPage = () => {
     return (
         <div className={styles.container}>
             <Header />
+            <Event partyAddress={partyAddress} />
         </div>
     )
 }

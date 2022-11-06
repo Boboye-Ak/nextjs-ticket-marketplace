@@ -25,6 +25,7 @@
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    color: red;
 }
 
 .unsupported-chain li {
@@ -33,4 +34,17 @@
     cursor: pointer;
     text-decoration: underline;
     font-size: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .loader {
+        font-size: 30px;
+    }
+    .unsupported-chain {
+        font-size: 25px;
+    }
+    .unsupported-chain li {
+        font-size: 20px;
+    }
 }
