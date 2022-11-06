@@ -3,6 +3,7 @@ import WalletEvents from "../components/WalletEvents"
 import styles from "../styles/Home.module.css"
 import { useMoralis } from "react-moralis"
 import { chains, partyFactoryAddresses, partyFactoryAbi, partyAbi } from "../constants"
+import UnsupportedChain from "../components/Full Screen Components/UnsupportedChain"
 const myEventsPage = () => {
     const { chainId: chainIdHex, isWeb3Enabled, account } = useMoralis()
     const chainId = parseInt(chainIdHex)
@@ -18,6 +19,7 @@ const myEventsPage = () => {
         <div className={styles.container}>
             <Header />
             <WalletEvents wallet={account} />
+            {!partyFactoryAddress && account && <UnsupportedChain />}
         </div>
     )
 }
