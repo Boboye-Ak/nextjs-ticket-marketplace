@@ -12,6 +12,7 @@
 }
 
 .party-card {
+    position: relative;
     width: 80%;
     height: 120px;
     margin-top: 0px;
@@ -32,8 +33,10 @@
     transition: 400ms;
 }
 .party-card:hover {
+    position: relative;
     width: 85%;
     height: 150px;
+    top: 10px;
 }
 .party-card .img-wrap {
     width: 500px;
@@ -127,4 +130,14 @@
 }
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
+    .party-card .party-name {
+        font-size: 15px;
+    }
+
+    .party-card .ticket-sales {
+        font-size: 10px;
+    }
+    .full-screen-party-card {
+        width: 90vw;
+    }
 }

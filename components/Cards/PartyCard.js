@@ -21,7 +21,7 @@ const PartyCard = ({ party }) => {
                     <img src={party.partyImage} />
             </div>*/}
                 <div className="ticket-sales">
-                    {party.totalSold}/{party.maxAttendees} Sold
+                    {parseInt(party.maxAttendees) - parseInt(party.totalSold)} Available
                 </div>
             </div>
 

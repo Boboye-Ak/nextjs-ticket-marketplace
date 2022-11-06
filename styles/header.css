@@ -9,6 +9,7 @@
     padding-right: 10px;
     border-bottom: solid;
     border-width: 1px;
+    margin-bottom: 30px;
 }
 
 .pc-header ul {
@@ -40,6 +41,7 @@
     align-items: center;
     border-bottom: solid;
     border-width: 1px;
+    margin-bottom: 20px;
 }
 
 .mobile-header .menu-button {
