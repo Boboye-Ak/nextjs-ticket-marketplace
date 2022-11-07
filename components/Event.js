@@ -24,6 +24,7 @@ const Event = ({ partyAddress }) => {
     const [numTickets, setNumTickets] = useState("")
     const [myTickets, setMyTickets] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [timeTaken, setTimeTaken] = useState(0)
 
     //Web3 Functions
     const { runContractFunction: getCost } = useWeb3Contract({
@@ -66,6 +67,22 @@ const Event = ({ partyAddress }) => {
 
     //Web2 Functions
     const updateUI = async () => {
+        setIsLoading(true)
+        const partyNameFromCall = await getName()
+        const totalSoldFromCall = (await getTotalSold())?.toString()
+        const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
+        let numTicketsFromCall = (await getNumTickets())?.toString()
+        setNumTickets(numTicketsFromCall)
+        setMaxAttendees(maxAttendeesFromCall)
+        setTotalSold(totalSoldFromCall)
+        setPartyName(partyNameFromCall)
+        setIsLoading(false)
+        setMyTickets([])
+    }
+
+    const listMyTokens = async () => {
+        const startTime = new Date().getTime()
+        setIsLoading(true)
         let myTicketsArray = []
         let getOwnerOfOptions = {
             abi: partyAbi,
@@ -73,10 +90,8 @@ const Event = ({ partyAddress }) => {
             functionName: "ownerOf",
             params: { tokenId: null },
         }
-        const partyNameFromCall = await getName()
-        const totalSoldFromCall = (await getTotalSold())?.toString()
-        const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
-        let numTicketsFromCall = (await getNumTickets())?.toString()
+        let numTicketsFromCall = numTickets
+        let totalSoldFromCall = totalSold
         if (
             typeof numTicketsFromCall != "undefined" &&
             parseInt(numTicketsFromCall?.toString()) > 0 &&
@@ -84,15 +99,10 @@ const Event = ({ partyAddress }) => {
         ) {
             numTicketsFromCall = parseInt(numTicketsFromCall)
             for (let n = 1; n <= parseInt(totalSoldFromCall); n++) {
-                console.log(`checking token ID ${n}`)
                 getOwnerOfOptions.params.tokenId = n
                 let owner = await getOwnerOf({ params: getOwnerOfOptions })
                 if (owner?.toLowerCase() == account?.toLowerCase()) {
-                    console.log(`token ID ${n} is yours`)
                     myTicketsArray.push(n)
-                    console.log(myTicketsArray)
-                } else {
-                    console.log(`token ID ${n} is not yours`)
                 }
                 if (myTicketsArray.length >= parseInt(numTicketsFromCall)) {
                     break
@@ -101,12 +111,10 @@ const Event = ({ partyAddress }) => {
         } else {
             numTicketsFromCall = 0
         }
-        console.log(myTicketsArray)
-        setNumTickets(numTicketsFromCall)
-        setMaxAttendees(maxAttendeesFromCall)
-        setTotalSold(totalSoldFromCall)
-        setPartyName(partyNameFromCall)
+        const endTime = new Date().getTime()
+        setTimeTaken(endTime - startTime)
         setMyTickets(myTicketsArray)
+        setIsLoading(false)
     }
 
     //useEffects
@@ -121,12 +129,20 @@ const Event = ({ partyAddress }) => {
             Event with address {partyAddress}. You have {numTickets} tickets to {partyName}.{" "}
             {totalSold} out of the total {maxAttendees} have been sold.
             <br />
+            <button
+                onClick={() => {
+                    listMyTokens()
+                }}
+            >
+                Get My Ticket ID Numbers
+            </button>
             You own tickets with IDs:
             <div>
                 {myTickets.map((ticket, index) => {
                     return <div key={index}>{ticket}</div>
                 })}
             </div>
+            <div>time taken:{timeTaken}</div>
         </div>
     )
 }
