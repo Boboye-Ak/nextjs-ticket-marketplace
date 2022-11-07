@@ -7,6 +7,8 @@ import "../styles/party-card.css"
 import "../styles/buttons.css"
 import "../styles/create-event.css"
 import "../styles/loader.css"
+import "../styles/event-page.css"
+import "../styles/notification.css"
 function MyApp({ Component, pageProps }) {
     return (
         <>
