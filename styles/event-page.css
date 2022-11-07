@@ -44,6 +44,7 @@
     padding: 20px;
 }
 .event-page-body .date-and-venue {
+    margin-bottom: 10px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -70,6 +71,32 @@
 .event-page-body .party-description {
     margin-top: 10px;
     width: 80%;
+}
+.event-page-body .num-tickets-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.event-page-body .num-tickets-container .num-tickets {
+    font-size: 60px;
+}
+.event-page-body .num-tickets-container .num-tickets-text {
+    font-size: 40px;
+}
+.event-page-body .num-tickets-container .ticket-ids {
+    margin-top: 10px;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: grey;
+    transition: 0.4s;
+}
+
+.event-page-body .num-tickets-container .ticket-ids.hidden {
+    height: 0;
+    font-size: 0;
+    opacity: 0;
 }
 
 @media only screen and (max-width: 768px) {
@@ -110,5 +137,11 @@
     }
     .event-page-body .party-description {
         width: 100%;
+    }
+    .event-page-body .num-tickets-container .num-tickets {
+        font-size: 40px;
+    }
+    .event-page-body .num-tickets-container .num-tickets-text {
+        font-size: 30px;
     }
 }

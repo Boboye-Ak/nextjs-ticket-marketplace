@@ -26,6 +26,7 @@ const Event = ({ partyAddress }) => {
     const [maxAttendees, setMaxAttendees] = useState("")
     const [numTickets, setNumTickets] = useState("")
     const [myTickets, setMyTickets] = useState([])
+    const [isHost, setIsHost] = useState(false)
     const [isCheckedIn, setIsCheckedIn] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [showNotificationBar, setShowNotificationBar] = useState(false)
@@ -33,6 +34,12 @@ const Event = ({ partyAddress }) => {
     const [notificationType, setNotificationType] = useState("")
 
     //Web3 Functions
+    const { runContractFunction: getHost } = useWeb3Contract({
+        abi: partyAbi,
+        contractAddress: partyAddress,
+        functionName: "getHost",
+        params: {},
+    })
     const { runContractFunction: getCost } = useWeb3Contract({
         abi: partyAbi,
         contractAddress: partyAddress,
@@ -88,6 +95,7 @@ const Event = ({ partyAddress }) => {
         const totalSoldFromCall = (await getTotalSold())?.toString()
         const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
         let costFromCall = (await getCost())?.toString()
+        const hostFromCall = await getHost()
         console.log(costFromCall)
         costFromCall = convertToEth(costFromCall)
         let numTicketsFromCall = (await getNumTickets())?.toString()
@@ -97,6 +105,7 @@ const Event = ({ partyAddress }) => {
         setPartyName(partyNameFromCall)
         setIsLoading(false)
         setCost(costFromCall)
+        setIsHost(account.toLowerCase() == hostFromCall?.toLowerCase())
         setMyTickets([])
     }
 
@@ -178,8 +187,8 @@ const Event = ({ partyAddress }) => {
                     </span>
                 </div>
                 <div className="mobile-only party-address">
-                    {partyAddress.slice(0, 10)}...
-                    {partyAddress.slice(partyAddress.length - 5, partyAddress.length - 1)}
+                    {partyAddress?.slice(0, 10)}...
+                    {partyAddress?.slice(partyAddress.length - 5, partyAddress.length - 1)}
                     <span
                         onClick={() => {
                             navigator.clipboard.writeText(partyAddress)
@@ -223,6 +232,32 @@ const Event = ({ partyAddress }) => {
                     lorem in libero lacinia, ut blandit ex cursus. Nunc sed laoreet ipsum. Proin
                     mattis mi at erat iaculis, ac semper erat egestas. Maecenas gravida lacinia
                     lorem at iaculis.
+                </div>
+                <div className="num-tickets-container">
+                    <div className="num-tickets-text">You Have</div>
+                    <div className="num-tickets">{numTickets}</div>
+                    <div className="num-tickets-text">Tickets To This Event</div>
+                    <div>
+                        <button
+                            className="show-ticket-id-button"
+                            onClick={() => {
+                                listMyTokens()
+                            }}
+                            disabled={numTickets == 0 || numTickets == "0"}
+                        >
+                            Show Ticket IDs
+                        </button>
+                    </div>
+                    <div className={`ticket-ids ${!myTickets.length && "hidden"}`}>
+                        {myTickets?.map((ticket, index) => {
+                            return (
+                                <div>
+                                    {ticket}=&#62;
+                                    {isCheckedIn[ticket] ? "Checked In" : "Not Checked In"}
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
