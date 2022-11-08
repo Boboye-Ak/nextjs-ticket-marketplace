@@ -96,7 +96,7 @@ const Event = ({ partyAddress }) => {
         const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
         let costFromCall = (await getCost())?.toString()
         const hostFromCall = await getHost()
-        console.log(costFromCall)
+
         costFromCall = convertToEth(costFromCall)
         let numTicketsFromCall = (await getNumTickets())?.toString()
         setNumTickets(numTicketsFromCall)
@@ -105,7 +105,9 @@ const Event = ({ partyAddress }) => {
         setPartyName(partyNameFromCall)
         setIsLoading(false)
         setCost(costFromCall)
-        setIsHost(account.toLowerCase() == hostFromCall?.toLowerCase())
+        const isHostFromCall = account.toLowerCase() == hostFromCall?.toLowerCase()
+        console.log({ isHostFromCall })
+        setIsHost(isHostFromCall)
         setMyTickets([])
     }
 
@@ -180,7 +182,7 @@ const Event = ({ partyAddress }) => {
                     <span
                         onClick={() => {
                             navigator.clipboard.writeText(partyAddress)
-                            showNotification("Event Address copied to clipboard!")
+                            showNotification("Event Contract Address copied to clipboard!")
                         }}
                     >
                         <Icon icon="clarity:copy-to-clipboard-line" />
@@ -251,8 +253,8 @@ const Event = ({ partyAddress }) => {
                     <div className={`ticket-ids ${!myTickets.length && "hidden"}`}>
                         {myTickets?.map((ticket, index) => {
                             return (
-                                <div>
-                                    {ticket}=&#62;
+                                <div key={index} className="ticket-id">
+                                    Ticket #{ticket}=&#62;
                                     {isCheckedIn[ticket] ? "Checked In" : "Not Checked In"}
                                 </div>
                             )
@@ -260,6 +262,11 @@ const Event = ({ partyAddress }) => {
                     </div>
                 </div>
             </div>
+            {isHost && (
+                <div className="edit-modal-container">
+                    <div className="edit-modal">Edit Modal</div>
+                </div>
+            )}
         </div>
     )
 }
