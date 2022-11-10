@@ -9,7 +9,6 @@ const FullScreenPartyCard = ({ party, toggleFullScreenCard }) => {
                 className="full-screen-party-card"
                 style={{
                     backgroundImage: `url("${party.partyImage}")`,
-                    
                 }}
             >
                 <div className="close-bar">

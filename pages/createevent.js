@@ -5,7 +5,7 @@ const createEvent = () => {
     return (
         <div className={styles.container}>
             <Header />
-            <CreateEvent/>
+            <CreateEvent />
         </div>
     )
 }

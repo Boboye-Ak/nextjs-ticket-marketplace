@@ -104,11 +104,10 @@
     transform: scale(1.025);
 }
 
-.show-ticket-id-button:disabled{
+.show-ticket-id-button:disabled {
     transform: scale(0);
     background-color: grey;
 }
-
 
 @media (min-width: 768px) {
     .show-ticket-id-button {

@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react"
+import { Icon, InlineIcon } from "@iconify/react"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
@@ -24,8 +24,14 @@ const Event = ({ partyAddress }) => {
     const [cost, setCost] = useState("")
     const [totalSold, setTotalSold] = useState("")
     const [maxAttendees, setMaxAttendees] = useState("")
-    const [numTickets, setNumTickets] = useState("")
+    const [numTickets, setNumTickets] = useState("0")
     const [myTickets, setMyTickets] = useState([])
+    const [description, setDescription] = useState("")
+    const [venue, setVenue] = useState("")
+    const [date, setDate] = useState()
+    const [newDescription, setNewDescription] = useState("")
+    const [newVenue, setNewVenue] = useState("")
+    const [newDate, setNewDate] = useState("")
     const [isHost, setIsHost] = useState(false)
     const [isCheckedIn, setIsCheckedIn] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -106,7 +112,6 @@ const Event = ({ partyAddress }) => {
         setIsLoading(false)
         setCost(costFromCall)
         const isHostFromCall = account.toLowerCase() == hostFromCall?.toLowerCase()
-        console.log({ isHostFromCall })
         setIsHost(isHostFromCall)
         setMyTickets([])
     }
@@ -157,7 +162,6 @@ const Event = ({ partyAddress }) => {
                 isCheckedInObject[id] = checkedInStatus
             }
             setIsCheckedIn(isCheckedInObject)
-            console.log(isCheckedInObject)
         }
         setIsLoading(false)
     }
@@ -213,7 +217,7 @@ const Event = ({ partyAddress }) => {
                     <div className="party-poster">POSTER</div>
                 </div>
                 <div className="date-and-venue">
-                    <span>Date: 13/10/1999</span>
+                    <span>Date: {newDate}</span>
                     <span>Venue: Royal Birds Hotel Alagbaka</span>
                 </div>
                 <div className="party-description">
@@ -264,7 +268,59 @@ const Event = ({ partyAddress }) => {
             </div>
             {isHost && (
                 <div className="edit-modal-container">
-                    <div className="edit-modal">Edit Modal</div>
+                    <div className="edit-modal">
+                        <h2>Change Event Details</h2>
+                        <label htmlFor="new-venue">Venue:</label>
+                        <div className="input-container">
+                            <span>
+                                <Icon icon="material-symbols:house" />
+                            </span>
+                            <input
+                                id="new-venue"
+                                type="text"
+                                value={newVenue}
+                                onChange={(e) => {
+                                    setNewVenue(e.target.value)
+                                }}
+                            />
+                        </div>
+                        <label htmlFor="new-date">Date:</label>
+                        <div className="date-time-container">
+                            <input
+                                id="new-date"
+                                type="datetime-local"
+                                value={newDate}
+                                onChange={(e) => {
+                                    let currentTime = new Date().getTime()
+                                    let eventTime = e.target.value
+                                    eventTime = new Date(eventTime).getTime()
+                                    if (eventTime - currentTime < 24 * 60 * 60 * 1000) {
+                                        let nextDayMilliseconds = currentTime + 24 * 60 * 60 * 1000
+                                        let nextDay = new Date(nextDayMilliseconds)
+                                            .toISOString()
+                                            .slice(0, 16)
+                                        console.log({ nextDayMilliseconds, currentTime })
+                                        setNewDate(nextDay)
+                                    } else {
+                                        console.log(e.target.value)
+                                        setNewDate(e.target.value)
+                                    }
+                                    console.log(newDate)
+                                }}
+                            />
+                        </div>
+                        <label htmlFor="new-description">Description:</label>
+                        <div className="text-area-container">
+                            <input
+                                id="new-descritpion"
+                                type="text-area"
+                                value={newDescription}
+                                onChange={(e) => {
+                                    setNewDescription(e.target.value)
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

@@ -45,6 +45,8 @@
 }
 .event-page-body .date-and-venue {
     margin-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -112,8 +114,55 @@
 .event-page .edit-modal {
     width: 70%;
     margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 30px;
     border: solid;
     border-width: 1px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.event-page .edit-modal .input-container {
+    border: solid;
+    border-width: thin;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.event-page .edit-modal .input-container span {
+    font-size: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.event-page .edit-modal .input-container input[type="text"] {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+.event-page .edit-modal input[type="datetime-local"] {
+    font-size: 20px;
+    border-radius: 6px;
+    width: 300px;
+    height: 50px;
+    padding: 10px;
+    cursor: pointer;
+}
+.event-page .edit-modal label {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.event-page .edit-modal .text-area-container {
+    border: solid;
+    border-width: thin;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 @media only screen and (max-width: 768px) {
@@ -160,5 +209,17 @@
     }
     .event-page-body .num-tickets-container .num-tickets-text {
         font-size: 30px;
+    }
+    .event-page .edit-modal .input-container {
+        width: 90%;
+    }
+    .event-page .edit-modal .input-container input[type="text"] {
+        font-size: 15px;
+    }
+    .event-page .date-time-container {
+        width: 70%;
+    }
+    .event-page .edit-modal input[type="datetime-local"] {
+        width: 100%;
     }
 }

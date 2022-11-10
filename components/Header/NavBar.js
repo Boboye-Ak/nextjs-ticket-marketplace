@@ -20,7 +20,9 @@ const NavBar = ({ isHidden, toggleNavBar }) => {
                 <li>
                     <Link href="/myevents">My Events</Link>
                 </li>
-                <li><Link href="/">Find Event</Link></li>
+                <li>
+                    <Link href="/">Find Event</Link>
+                </li>
             </ul>
         </div>
     )
