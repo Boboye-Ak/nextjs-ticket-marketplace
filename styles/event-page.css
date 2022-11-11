@@ -159,9 +159,22 @@
 .event-page .edit-modal .text-area-container {
     border: solid;
     border-width: thin;
+    width: 500px;
+    height: 200px;
+}
+.event-page .edit-modal .text-area-container textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    height: 170px;
+    width: 100%;
+    font-size: 15px;
+}
+.event-page .edit-modal .text-area-container .letter-count-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
 }
 

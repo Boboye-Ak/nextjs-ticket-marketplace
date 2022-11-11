@@ -1,13 +1,14 @@
 import { NFTStorage, File } from "nft.storage"
-import { env } from "../nextjs.helper.config"
-const client = new NFTStorage({ token: env.NFT_STORAGE_API_TOKEN })
-const sendFileToNFTStorage = async ({ fileImg, name, description }) => {
+
+const sendFileToNFTStorage = async (client, { fileImg, name, description, venue, date }) => {
     if (fileImg) {
         try {
             const metadata = await client.store({
                 name: name || "*Please set name in Name modal*",
                 image: fileImg,
                 description: description || "*Please give a decription in edit modal.*",
+                venue: venue,
+                date: date,
             })
             return metadata.url
         } catch (e) {
@@ -22,4 +23,7 @@ const toImgObject = async (url) => {
     return blob
 }
 
-module.exports = { sendFileToNFTStorage, toImgObject }
+const fileToBlob = async (file) =>
+    new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })
+
+module.exports = { sendFileToNFTStorage, toImgObject, fileToBlob }

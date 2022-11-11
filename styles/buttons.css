@@ -109,6 +109,19 @@
     background-color: grey;
 }
 
+label[for="event-image"] {
+    font-size: 1em;
+    padding: 1em;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    background: rgb(213, 204, 210);
+    margin: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 @media (min-width: 768px) {
     .show-ticket-id-button {
         font-size: 1.5rem;

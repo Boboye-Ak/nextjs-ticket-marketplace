@@ -1,4 +1,6 @@
-import { Icon, InlineIcon } from "@iconify/react"
+import { Icon } from "@iconify/react"
+import axios from "axios"
+import { toImgObject, fileToBlob } from "../utils/nft-storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
@@ -29,9 +31,11 @@ const Event = ({ partyAddress }) => {
     const [description, setDescription] = useState("")
     const [venue, setVenue] = useState("")
     const [date, setDate] = useState()
+    const [imgUri, setImgUri] = useState("")
     const [newDescription, setNewDescription] = useState("")
     const [newVenue, setNewVenue] = useState("")
     const [newDate, setNewDate] = useState("")
+    const [fileImg, setFileImg] = useState("")
     const [isHost, setIsHost] = useState(false)
     const [isCheckedIn, setIsCheckedIn] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -164,6 +168,41 @@ const Event = ({ partyAddress }) => {
             setIsCheckedIn(isCheckedInObject)
         }
         setIsLoading(false)
+    }
+
+    const editEvent = async () => {
+        let nameForPostRequest = partyName
+        let venueForPostRequest = newVenue || venue
+        let descriptionForPostRequest = newDescription || description
+        let dateTimeForPostRequest = newDate || date
+        let fileImg1, fileImg2, fileImg3
+        fileImg1 = fileImg ? await fileToBlob(fileImg) : ""
+        fileImg3 = await toImgObject(
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+        )
+        fileImg2 = await toImgObject(imgUri)
+        let fileImgForPostRequest = fileImg ? fileImg1 : fileImg2 ? fileImg2 : fileImg3
+        console.log(fileImgForPostRequest)
+        let formData = new FormData()
+
+        formData.append("name", nameForPostRequest)
+        formData.append("venue", venueForPostRequest)
+        formData.append("description", descriptionForPostRequest)
+        formData.append("date", dateTimeForPostRequest)
+        formData.append("image", fileImgForPostRequest)
+
+        let res = await axios.post("/api/editevent", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        console.log(res.data)
+    }
+
+    const undoChanges = () => {
+        setNewDate(date)
+        setNewVenue(venue)
+        setNewDescription(description)
     }
 
     //useEffects
@@ -311,14 +350,57 @@ const Event = ({ partyAddress }) => {
                         </div>
                         <label htmlFor="new-description">Description:</label>
                         <div className="text-area-container">
-                            <input
+                            <textarea
                                 id="new-descritpion"
-                                type="text-area"
                                 value={newDescription}
                                 onChange={(e) => {
-                                    setNewDescription(e.target.value)
+                                    if (newDescription.length < 300) {
+                                        setNewDescription(e.target.value)
+                                    }
                                 }}
                             />
+                            <div className="letter-count-container">
+                                <div className="letter-count">{newDescription.length}/300</div>
+                            </div>
+                        </div>
+                        <label htmlFor="event-image" style={{ color: "black" }}>
+                            {!fileImg ? (
+                                <>
+                                    Upload New Event Poster
+                                    <Icon icon="bi:cloud-upload" />
+                                </>
+                            ) : (
+                                <>
+                                    Change New Event Poster <Icon icon="bi:cloud-upload" />
+                                </>
+                            )}
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/png, image/gif, image/jpeg"
+                            onChange={(e) => {
+                                setFileImg(e.target.files[0])
+                            }}
+                            id="event-image"
+                            hidden
+                        ></input>
+                        <div>
+                            <button
+                                onClick={() => {
+                                    undoChanges()
+                                }}
+                            >
+                                Undo Changes
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => {
+                                    editEvent()
+                                }}
+                            >
+                                Submit Changes
+                            </button>
                         </div>
                     </div>
                 </div>
