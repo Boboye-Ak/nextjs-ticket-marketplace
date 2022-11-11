@@ -35,6 +35,7 @@ const Event = ({ partyAddress }) => {
     const [newDescription, setNewDescription] = useState("")
     const [newVenue, setNewVenue] = useState("")
     const [newDate, setNewDate] = useState("")
+    const [newPoster, setNewPoster] = useState("")
     const [fileImg, setFileImg] = useState("")
     const [isHost, setIsHost] = useState(false)
     const [isCheckedIn, setIsCheckedIn] = useState({})
@@ -88,6 +89,12 @@ const Event = ({ partyAddress }) => {
     })
     const { runContractFunction: getOwnerOf } = useWeb3Contract()
     const { runContractFunction: getIsCheckedIn } = useWeb3Contract()
+    const { runContractFunction: setPoster } = useWeb3Contract({
+        abi: partyAbi,
+        contractAddress: partyAddress,
+        functionName: "setPoster",
+        params: { newPoster: newPoster },
+    })
 
     //Web2 Functions
     const showNotification = (text, notificationType = "success") => {
@@ -184,7 +191,6 @@ const Event = ({ partyAddress }) => {
         let fileImgForPostRequest = fileImg ? fileImg1 : fileImg2 ? fileImg2 : fileImg3
         console.log(fileImgForPostRequest)
         let formData = new FormData()
-
         formData.append("name", nameForPostRequest)
         formData.append("venue", venueForPostRequest)
         formData.append("description", descriptionForPostRequest)
@@ -196,7 +202,9 @@ const Event = ({ partyAddress }) => {
                 "Content-Type": "multipart/form-data",
             },
         })
-        console.log(res.data)
+        let url = res.data.url
+        setNewPoster(url)
+        console.log(url)
     }
 
     const undoChanges = () => {
@@ -205,12 +213,29 @@ const Event = ({ partyAddress }) => {
         setNewDescription(description)
     }
 
+    const updatePoster = async () => {
+        setIsLoading(true)
+        await setPoster({
+            onSuccess: async (tx) => {
+                await tx.wait(1)
+                setIsLoading(false)
+                updateUI()
+            },
+        })
+        setIsLoading(false)
+    }
+
     //useEffects
     useEffect(() => {
         if (isWeb3Enabled) {
             updateUI()
         }
     }, [isWeb3Enabled, chainId, account])
+    useEffect(() => {
+        if (newPoster) {
+            updatePoster()
+        }
+    }, [newPoster])
     return (
         <div className="event-page">
             {isLoading && <Loader />}
