@@ -113,6 +113,17 @@ const Event = ({ partyAddress }) => {
         const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
         let costFromCall = (await getCost())?.toString()
         const hostFromCall = await getHost()
+        let posterFromCall = await getPoster()
+        posterFromCall = posterFromCall?.replace("ipfs://", "https://ipfs.io/ipfs/")
+        let res = await axios.get(posterFromCall)
+        const {
+            name: nameFromCall,
+            description: descriptionFromCall,
+            venue: venueFromCall,
+            date: dateFromCall,
+            image: imageFromCall,
+        } = res.data
+        console.log(res.data)
 
         costFromCall = convertToEth(costFromCall)
         let numTicketsFromCall = (await getNumTickets())?.toString()
@@ -122,6 +133,13 @@ const Event = ({ partyAddress }) => {
         setPartyName(partyNameFromCall)
         setIsLoading(false)
         setCost(costFromCall)
+        setImgUri(imageFromCall?.replace("ipfs://", "https://ipfs.io/ipfs/"))
+        setVenue(venueFromCall)
+        setNewVenue(venueFromCall)
+
+        setDate(dateFromCall)
+        setDescription(descriptionFromCall)
+        setNewDescription(descriptionFromCall)
         const isHostFromCall = account.toLowerCase() == hostFromCall?.toLowerCase()
         setIsHost(isHostFromCall)
         setMyTickets([])
@@ -220,6 +238,7 @@ const Event = ({ partyAddress }) => {
                 await tx.wait(1)
                 setIsLoading(false)
                 updateUI()
+                setNewPoster("")
             },
         })
         setIsLoading(false)
@@ -278,31 +297,18 @@ const Event = ({ partyAddress }) => {
             </div>
             <div className="event-page-body">
                 <div className="party-poster-container">
-                    <div className="party-poster">POSTER</div>
+                    <div
+                        className="party-poster"
+                        style={{
+                            backgroundImage: `url("${imgUri}")`,
+                        }}
+                    ></div>
                 </div>
                 <div className="date-and-venue">
-                    <span>Date: {newDate}</span>
-                    <span>Venue: Royal Birds Hotel Alagbaka</span>
+                    <span>Date: {date}</span>
+                    <span>Venue: {venue}</span>
                 </div>
-                <div className="party-description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis aliquam dui,
-                    at accumsan leo. Phasellus malesuada sem sed sollicitudin facilisis. Proin
-                    tristique ultricies mi id elementum. Donec vel posuere lectus. Aenean facilisis
-                    justo non dolor volutpat, at ornare leo imperdiet. Donec sit amet turpis nisl.
-                    Morbi sapien ipsum, semper a dui ullamcorper, hendrerit ultrices eros. Aliquam
-                    luctus sed ipsum sed hendrerit. Cras consequat, mi nec dictum posuere, quam enim
-                    aliquam nibh, non dictum elit enim et lorem. Donec condimentum mattis diam,
-                    pharetra lacinia mi mattis nec. Ut ultrices lobortis urna, sed dictum mauris
-                    vulputate eget. Duis nec elit eget massa ultrices sagittis vel tincidunt ante.
-                    Duis imperdiet tempus purus non semper. Nullam tempor ante leo, sit amet sodales
-                    felis efficitur eget. Quisque eu sapien sodales, sollicitudin odio eu, viverra
-                    eros. In vitae quam auctor, maximus dui auctor, feugiat sem. Sed vestibulum ex
-                    eget urna eleifend, ac interdum magna mattis. Vivamus lobortis convallis
-                    ultrices. Integer porttitor lectus eget orci dignissim hendrerit. Duis dapibus
-                    lorem in libero lacinia, ut blandit ex cursus. Nunc sed laoreet ipsum. Proin
-                    mattis mi at erat iaculis, ac semper erat egestas. Maecenas gravida lacinia
-                    lorem at iaculis.
-                </div>
+                <div className="party-description">{description}</div>
                 <div className="num-tickets-container">
                     <div className="num-tickets-text">You Have</div>
                     <div className="num-tickets">{numTickets}</div>
