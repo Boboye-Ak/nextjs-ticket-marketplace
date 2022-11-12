@@ -9,6 +9,8 @@ import "../styles/create-event.css"
 import "../styles/loader.css"
 import "../styles/event-page.css"
 import "../styles/notification.css"
+import "../styles/buy-ticket-modal.css"
+import "../styles/switch.css"
 function MyApp({ Component, pageProps }) {
     return (
         <>

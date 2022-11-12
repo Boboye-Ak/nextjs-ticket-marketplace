@@ -8,6 +8,7 @@ import { chains, partyFactoryAddresses, partyFactoryAbi, partyAbi } from "../con
 import { convertToEth } from "../utils/converter"
 import Loader from "./Full Screen Components/Loader"
 import NotificationBar from "./Notification-bar"
+import BuyTicketModal from "./Full Screen Components/BuyTicketModal"
 
 const Event = ({ partyAddress }) => {
     const router = useRouter()
@@ -43,6 +44,7 @@ const Event = ({ partyAddress }) => {
     const [showNotificationBar, setShowNotificationBar] = useState(false)
     const [notificationText, setNotificationText] = useState("")
     const [notificationType, setNotificationType] = useState("")
+    const [showBuyTicketModal, setShowBuyTicketModal] = useState(false)
 
     //Web3 Functions
     const { runContractFunction: getHost } = useWeb3Contract({
@@ -136,7 +138,7 @@ const Event = ({ partyAddress }) => {
         setImgUri(imageFromCall?.replace("ipfs://", "https://ipfs.io/ipfs/"))
         setVenue(venueFromCall)
         setNewVenue(venueFromCall)
-
+        setShowBuyTicketModal(false)
         setDate(dateFromCall)
         setDescription(descriptionFromCall)
         setNewDescription(descriptionFromCall)
@@ -196,10 +198,16 @@ const Event = ({ partyAddress }) => {
     }
 
     const editEvent = async () => {
+        let now = new Date().getTime()
+        let nextDay = new Date(now + 24 * 60 * 60 * 1000).toISOString().slice(0, 16)
         let nameForPostRequest = partyName
         let venueForPostRequest = newVenue || venue
         let descriptionForPostRequest = newDescription || description
-        let dateTimeForPostRequest = newDate || date
+        let dateTimeForPostRequest = newDate
+            ? newDate
+            : date && date != "undefined"
+            ? date
+            : nextDay
         let fileImg1, fileImg2, fileImg3
         fileImg1 = fileImg ? await fileToBlob(fileImg) : ""
         fileImg3 = await toImgObject(
@@ -244,6 +252,10 @@ const Event = ({ partyAddress }) => {
         setIsLoading(false)
     }
 
+    const toggleShowBuyTicketModal = () => {
+        setShowBuyTicketModal(!showBuyTicketModal)
+    }
+
     //useEffects
     useEffect(() => {
         if (isWeb3Enabled) {
@@ -263,9 +275,17 @@ const Event = ({ partyAddress }) => {
                 notificationText={notificationText}
                 notificationType={notificationType}
             />
+            {showBuyTicketModal && (
+                <BuyTicketModal
+                    partyName={partyName}
+                    partyAddress={partyAddress}
+                    ticketCost={cost}
+                    toggleShowBuyTicketModal={toggleShowBuyTicketModal}
+                />
+            )}
             <div className="event-page-head">
                 <div className="pc-only party-address">
-                    {partyAddress}
+                    <div className="actual-party-address">{partyAddress}</div>
                     <span
                         onClick={() => {
                             navigator.clipboard.writeText(partyAddress)
@@ -305,7 +325,7 @@ const Event = ({ partyAddress }) => {
                     ></div>
                 </div>
                 <div className="date-and-venue">
-                    <span>Date: {date}</span>
+                    <span>Date: {date?.replace("T", " @ ")}</span>
                     <span>Venue: {venue}</span>
                 </div>
                 <div className="party-description">{description}</div>
@@ -334,6 +354,14 @@ const Event = ({ partyAddress }) => {
                             )
                         })}
                     </div>
+                    <button
+                        className="show-ticket-id-button"
+                        onClick={() => {
+                            setShowBuyTicketModal(!showBuyTicketModal)
+                        }}
+                    >
+                        Buy Ticket
+                    </button>
                 </div>
             </div>
             {isHost && (

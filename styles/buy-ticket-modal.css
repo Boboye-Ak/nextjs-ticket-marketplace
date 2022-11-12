@@ -1,0 +1,68 @@
+.buy-ticket-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-ticket-modal {
+    width: 50vw;
+    height: 50vh;
+    padding: 20px;
+    padding-top: 0px;
+    padding-right: 5px;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buy-ticket-modal .buy-for-yourself {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.buy-ticket-modal .close-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+}
+.buy-ticket-modal .close-button {
+    color: red;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.buy-ticket-modal .address-text-wrap {
+    width: 400px;
+    height: 50px;
+    border: solid;
+    border-width: thin;
+    margin-bottom: 20px;
+}
+
+.buy-ticket-modal .address-text-wrap.hidden {
+    opacity: 0;
+}
+.buy-ticket-modal .address-text-wrap input {
+    width: 95%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    color: black;
+}

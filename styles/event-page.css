@@ -16,12 +16,25 @@
 .event-page .pc-only.party-address {
     width: 550px;
     height: 60px;
-    border: solid;
+    border-radius: 30px;
+    padding-left: 0px;
+    padding-right: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     font-size: 20px;
+    background-color: whitesmoke;
+}
+.event-page .pc-only.party-address .actual-party-address {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 30px;
+    padding-left: 10px;
+    padding-right: 30px;
+    background-color: rgb(206, 206, 250);
+    height: 100%;
 }
 .event-page .pc-only.party-address span {
     position: relative;
@@ -74,8 +87,10 @@
     background-size: 100% 100%;
 }
 .event-page-body .party-description {
+    border: solid;
     margin-top: 10px;
-    width: 80%;
+    width: 500px;
+    height: 200px;
 }
 .event-page-body .num-tickets-container {
     margin-top: 20px;
@@ -226,6 +241,9 @@
     .event-page-body .num-tickets-container .num-tickets-text {
         font-size: 30px;
     }
+    .event-page .edit-modal {
+        width: 95%;
+    }
     .event-page .edit-modal .input-container {
         width: 90%;
     }
@@ -237,5 +255,14 @@
     }
     .event-page .edit-modal input[type="datetime-local"] {
         width: 100%;
+    }
+    .event-page .edit-modal .text-area-container {
+        width: 95%;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .event-page .pc-only.party-address {
+        color: black;
     }
 }
