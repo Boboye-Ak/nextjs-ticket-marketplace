@@ -109,23 +109,35 @@ const Event = ({ partyAddress }) => {
         }, 5000)
     }
     const updateUI = async () => {
+        console.log("updating UI")
         setIsLoading(true)
         const partyNameFromCall = await getName()
+        console.log(partyNameFromCall)
         const totalSoldFromCall = (await getTotalSold())?.toString()
         const maxAttendeesFromCall = (await getMaxAttendees())?.toString()
         let costFromCall = (await getCost())?.toString()
         const hostFromCall = await getHost()
         let posterFromCall = await getPoster()
         posterFromCall = posterFromCall?.replace("ipfs://", "https://ipfs.io/ipfs/")
-        let res = await axios.get(posterFromCall)
-        const {
-            name: nameFromCall,
-            description: descriptionFromCall,
-            venue: venueFromCall,
-            date: dateFromCall,
-            image: imageFromCall,
-        } = res.data
-        console.log(res.data)
+        let res
+        if (posterFromCall) {
+            res = await axios.get(posterFromCall)
+            const {
+                name: nameFromCall,
+                description: descriptionFromCall,
+                venue: venueFromCall,
+                date: dateFromCall,
+                image: imageFromCall,
+            } = res?.data
+            setDate(dateFromCall)
+            setDescription(descriptionFromCall)
+            setNewDescription(descriptionFromCall)
+            const publicGatewayImg = imageFromCall.replace("ipfs://", "https://ipfs.io/ipfs/")
+            console.log(publicGatewayImg)
+            setImgUri(publicGatewayImg)
+            setVenue(venueFromCall)
+            setNewVenue(venueFromCall)
+        }
 
         costFromCall = convertToEth(costFromCall)
         let numTicketsFromCall = (await getNumTickets())?.toString()
@@ -135,13 +147,9 @@ const Event = ({ partyAddress }) => {
         setPartyName(partyNameFromCall)
         setIsLoading(false)
         setCost(costFromCall)
-        setImgUri(imageFromCall?.replace("ipfs://", "https://ipfs.io/ipfs/"))
-        setVenue(venueFromCall)
-        setNewVenue(venueFromCall)
+
         setShowBuyTicketModal(false)
-        setDate(dateFromCall)
-        setDescription(descriptionFromCall)
-        setNewDescription(descriptionFromCall)
+
         const isHostFromCall = account.toLowerCase() == hostFromCall?.toLowerCase()
         setIsHost(isHostFromCall)
         setMyTickets([])
@@ -198,6 +206,7 @@ const Event = ({ partyAddress }) => {
     }
 
     const editEvent = async () => {
+        setIsLoading(true)
         let now = new Date().getTime()
         let nextDay = new Date(now + 24 * 60 * 60 * 1000).toISOString().slice(0, 16)
         let nameForPostRequest = partyName
@@ -258,10 +267,10 @@ const Event = ({ partyAddress }) => {
 
     //useEffects
     useEffect(() => {
-        if (isWeb3Enabled) {
+        if (isWeb3Enabled && partyAddress) {
             updateUI()
         }
-    }, [isWeb3Enabled, chainId, account])
+    }, [isWeb3Enabled, chainId, account, partyAddress])
     useEffect(() => {
         if (newPoster) {
             updatePoster()
@@ -281,6 +290,7 @@ const Event = ({ partyAddress }) => {
                     partyAddress={partyAddress}
                     ticketCost={cost}
                     toggleShowBuyTicketModal={toggleShowBuyTicketModal}
+                    updateUI={updateUI}
                 />
             )}
             <div className="event-page-head">
@@ -331,7 +341,7 @@ const Event = ({ partyAddress }) => {
                 <div className="party-description">{description}</div>
                 <div className="num-tickets-container">
                     <div className="num-tickets-text">You Have</div>
-                    <div className="num-tickets">{numTickets}</div>
+                    <div className="num-tickets">{numTickets ? numTickets : 0}</div>
                     <div className="num-tickets-text">Tickets To This Event</div>
                     <div>
                         <button
@@ -359,6 +369,7 @@ const Event = ({ partyAddress }) => {
                         onClick={() => {
                             setShowBuyTicketModal(!showBuyTicketModal)
                         }}
+                        disabled={numTickets && parseInt(numTickets) > 0}
                     >
                         Buy Ticket
                     </button>

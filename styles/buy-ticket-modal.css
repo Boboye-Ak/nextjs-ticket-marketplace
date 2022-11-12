@@ -66,3 +66,21 @@
     outline: none;
     color: black;
 }
+.buy-ticket-modal .ticket-price{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.buy-ticket-modal .button-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.buy-ticket-modal button {
+    width: 300px;
+    height: 50px;
+    border-radius: 6px;
+    cursor: pointer;
+}
