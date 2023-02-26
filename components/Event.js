@@ -109,8 +109,7 @@ const Event = ({ partyAddress }) => {
         }, 5000)
     }
     const updateUI = async () => {
-        console.log("updating UI")
-        setIsLoading(true)
+
         const partyNameFromCall = await getName()
         console.log(partyNameFromCall)
         const totalSoldFromCall = (await getTotalSold())?.toString()
@@ -147,9 +146,7 @@ const Event = ({ partyAddress }) => {
         setPartyName(partyNameFromCall)
         setIsLoading(false)
         setCost(costFromCall)
-
         setShowBuyTicketModal(false)
-
         const isHostFromCall = account.toLowerCase() == hostFromCall?.toLowerCase()
         setIsHost(isHostFromCall)
         setMyTickets([])

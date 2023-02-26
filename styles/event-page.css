@@ -42,6 +42,7 @@
     cursor: pointer;
     font-size: x-large;
     font-weight: bolder;
+    transition: 0.2s;
 }
 .event-page .pc-only.party-address span :hover {
     color: red;

@@ -113,7 +113,7 @@ const WalletEvents = ({ wallet }) => {
                 events.map((event, index) => {
                     return (
                         <>
-                            <PartyCard party={event} />
+                            <PartyCard party={event} key={index}/>
                         </>
                     )
                 })
